@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.spring.pro.mapper.ProductMapper" >
+
+	<select id="productList"  parameterType="hashmap" resultType="Product">
+		select 
+		no, name, writer, price, count, option1, type, detail, delivery, image
+	    from 
+		product 
+		ORDER BY no DESC
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id="getProductCount" resultType="int">
+	SELECT COUNT(no) FROM product
+	</select>
+	
+	<select id ="getProduct" resultType="Product" resultMap="productResultMap">
+	select * from product where no = #{no}
+	</select>
+	
+	<insert id="insertProduct" parameterType="Product" useGeneratedKeys="true" keyProperty="no">
+	insert into product (name,writer, price,count,option1, type, detail, delivery, image, pass) 
+	values (#{name},#{writer},#{price},#{count},#{option1},#{type},#{detail},#{delivery},#{image},#{pass})
+	</insert>
+	
+	<select id="isPassCheck" resultType="String">
+	select pass from product where no = #{no}
+	</select>
+	
+	<update id="updateProduct" parameterType = "Product">
+	update product
+	 SET name= #{name}, price= #{price} , detail= #{detail} , image= #{image} where no = #{no} 
+	</update> 
+	
+	<delete id="deleteProduct">
+	delete from product where no = #{no}	
+	</delete>
+	
+	
+	
+	
+	
+	
+		<resultMap id="productResultMap" type="Product">
+		<id property="no" column="no"/>
+		<result property="name" column="name"/>
+		<result property="writer" column="writer"/>
+		<result property="price" column="price"/>
+		<result property="option1" column="option1"/>
+		<result property="count" column="count"/>
+		<result property="type" column="type"/>
+		<result property="detail" column="detail"/>
+		<result property="delivery" column="delivery"/>
+		<result property="image" column="image"/>
+		<result property="pass" column="pass"/>
+	</resultMap>
+</mapper>	
+
+
+
